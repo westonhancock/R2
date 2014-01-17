@@ -7,7 +7,8 @@
 
 var fs = require('fs')
   , parser = require('css-parse')
-  , builder = require('css-stringify');
+  , builder = require('css-stringify')
+  , fa = require('./plugins/fontawesome');
 
 function quad(v, m) {
   // 1px 2px 3px 4px => 1px 4px 3px 2px
@@ -210,3 +211,7 @@ module.exports.exec = function (args) {
 module.exports.swap = function (css, options) {
   return r2(css, options)
 }
+
+module.exports.valueMap = valueMap;
+
+fa.plug(module.exports);
