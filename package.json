@@ -21,7 +21,7 @@
     "bin": "bin"
   },
   "dependencies": {
-    "css-parse": "~1.6.0",
+    "css-parse": "https://github.com/liferay-labs/css-parse/tarball/master",
     "css-stringify": "~1.4.0"
   },
   "devDependencies": {
