@@ -8,7 +8,8 @@
 var fs = require('fs')
   , parser = require('css-parse')
   , builder = require('css-stringify')
-  , fa = require('./plugins/fontawesome');
+  , fa = require('./plugins/fontawesome')
+  , bg = require('./plugins/bgimage');
 
 function quad(v, m) {
   // 1px 2px 3px 4px => 1px 4px 3px 2px
@@ -215,3 +216,4 @@ module.exports.swap = function (css, options) {
 module.exports.valueMap = valueMap;
 
 fa.plug(module.exports);
+bg.plug(module.exports);
