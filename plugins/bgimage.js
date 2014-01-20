@@ -1,4 +1,4 @@
-var urlRegexp = /url\(.*(right|left)+/,
+var urlRegexp = /url\s*\(.*(?:right|left)/,
 
 	leftRe = /left/g,
 	rightRe = /right/g,
