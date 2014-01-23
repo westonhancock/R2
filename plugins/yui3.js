@@ -19,7 +19,7 @@ var resizeHandleRegexp = /.yui3-resize-handle/,
 	},
 
 	plug = function(r2) {
-		var bgValueMap = r2.valueMap['background-position'];
+		var originalBgPosFn = r2.valueMap['background-position'];
 
 		var yui3ResizeCursor = function(v, ctx) {
 			var swap = false;
@@ -58,7 +58,7 @@ var resizeHandleRegexp = /.yui3-resize-handle/,
 				v = swapHandleInnerBg[handle] || v;
 			}
 			else {
-				v = bgValueMap(v, ctx);
+				v = originalBgPosFn(v, ctx);
 			}
 
 			return v;
