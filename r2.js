@@ -9,7 +9,8 @@ var fs = require('fs')
   , parser = require('css-parse')
   , builder = require('css-stringify')
   , fa = require('./plugins/fontawesome')
-  , bg = require('./plugins/bgimage');
+  , bg = require('./plugins/bgimage')
+  , yui3 = require('./plugins/yui3');
 
 function quad(v, m) {
   // 1px 2px 3px 4px => 1px 4px 3px 2px
@@ -122,12 +123,14 @@ function processRule(rule, idx, list) {
     return;
 
   if (rule.declarations)
-    rule.declarations.forEach(processDeclaration)
+    rule.declarations.forEach(function(declaration) {
+      processDeclaration(declaration, rule);
+    });
   else if (rule.rules)
     rule.rules.forEach(processRule)
 }
 
-function processDeclaration(declaration) {
+function processDeclaration(declaration, rule) {
   // Ignore comments in declarations
   if (declaration.type !== 'declaration')
     return
@@ -147,7 +150,7 @@ function processDeclaration(declaration) {
     asterisk = ''
   }
   prop = propertyMap[prop] || prop
-  val = valueMap[prop] ? valueMap[prop](val) : val
+  val = valueMap[prop] ? valueMap[prop](val, {rule: rule, decl: declaration}) : val
 
   if (!val.match(important) && isImportant) val += '!important'
 
@@ -217,3 +220,4 @@ module.exports.valueMap = valueMap;
 
 fa.plug(module.exports);
 bg.plug(module.exports);
+yui3.plug(module.exports);
