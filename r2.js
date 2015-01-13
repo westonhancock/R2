@@ -44,10 +44,14 @@ function rtltr(v) {
 
 function bgPosition(values) {
   return values.split(/\s*,\s*/g).map(function (v) {
-    if (v.match(/\bleft\b/)) {
-      v = v.replace(/\bleft\b/, 'right')
-    } else if (v.match(/\bright\b/)) {
-      v = v.replace(/\bright\b/, 'left')
+    var ltrValChanged = false;
+    //Swap left|right but protect path values
+    if (v.match(/(?!left.*\))(\bleft\b)/)) {
+      v = v.replace(/(?!left.*\))(\bleft\b)/, 'right')
+      ltrValChanged = true;
+    } else if (v.match(/(?!right.*\))(\bright\b)/)) {
+      v = v.replace(/(?!right.*\))(\bright\b)/, 'left')
+      ltrValChanged = true;
     }
 
     var m = v.trim().split(/\s+/)
@@ -59,6 +63,19 @@ function bgPosition(values) {
       // 30% => 70% (100 - x)
       v = (100 - parseInt(m[0], 10)) + '% ' + m[1]
     }
+
+    if (m && m.length > 2) {
+    v = m[0];
+    for (i = 1; i < m.length; i++) {
+      if (m[i].match(/\d+%/) && (ltrValChanged != true)) {
+        v += ' ' + (100 - parseInt(m[i], 10)) + '%';
+        ltrValChanged = true;
+      }
+      else {
+        v += ' ' + m[i]
+      }
+    }
+  }
 
     return v
   }).join(', ')
@@ -115,7 +132,8 @@ var valueMap = {
   'border-color': quad,
   'border-width': quad,
   'border-style': quad,
-  'background-position': bgPosition
+  'background-position': bgPosition,
+  'background': bgPosition
 }
 
 function processRule(rule, idx, list) {
