@@ -174,6 +174,15 @@ sink('background-position', function (test, ok, before, after, assert) {
   })
 })
 
+sink('background', function (test, ok, before, after, assert) {
+  test('should swap shorthand position values', function (done) {
+    assert.equal(swap('p{background:value left 30%;}'), 'p{background:value right 30%;}', 'background:value left 30% => value right 30%')
+    assert.equal(swap('p{background:value 20% 10%;}'), 'p{background:value 80% 10%;}', 'background:value 20% 10% => value 80% 10%')
+    assert.equal(swap('p{background:color url(../left/right/test_left.png) repeat right 20%;}'), 'p{background:color url(../left/right/test_right.png) repeat left 20%;}', 'background:color url(../left/right/test_left.png) repeat right 20% => color url(../left/right/test_right.png) repeat left 20%')
+    done()
+  })
+})
+
 sink('important', function (test, ok, b, a, assert) {
   test('should retain important declaration', function (done) {
     assert.equal(swap('p{float:left!important;}'), 'p{float:right!important;}', 'float:right!important => float:left!important')

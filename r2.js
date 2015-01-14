@@ -9,7 +9,7 @@ var fs = require('fs')
   , parser = require('css-parse')
   , builder = require('css-stringify')
   , fa = require('./plugins/fontawesome')
-  , bg = require('./plugins/bgimage')
+  , bg = require('./plugins/bg')
   , yui3 = require('./plugins/yui3');
 
 function quad(v, m) {
